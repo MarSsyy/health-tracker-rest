@@ -58,13 +58,12 @@ class UserDAO {
 
     fun update(id: Int, user: User){
         transaction {
-            val existing = findById(id) ?: return@transaction
             Users.update ({
                 Users.id eq id}) {
-                it[name] = user.name ?: existing.name
-                it[password] = user.password ?: existing.password
-                it[age] = user.age ?: existing.age
-                it[gender] = user.gender ?: existing.gender
+                it[name] = user.name
+                it[password] = user.password
+                it[age] = user.age
+                it[gender] = user.gender
             }
         }
     }
