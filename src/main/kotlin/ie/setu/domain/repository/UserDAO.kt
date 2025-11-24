@@ -33,6 +33,9 @@ class UserDAO {
             Users.insert {
                 it[name] = user.name
                 it[email] = user.email
+                it[age] = user.age
+                it[gender] = user.gender
+                it[password] = user.password
             }
         }
     }
@@ -59,6 +62,9 @@ class UserDAO {
                 Users.id eq id}) {
                 it[name] = user.name
                 it[email] = user.email
+                it[age] = user.age
+                it[gender] = user.gender
+                it[password] = user.password
             }
         }
     }
