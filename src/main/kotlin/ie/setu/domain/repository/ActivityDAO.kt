@@ -2,8 +2,10 @@ package ie.setu.domain.repository
 
 import ie.setu.domain.Activity
 import ie.setu.domain.db.Activities
+import ie.setu.domain.db.Users
 import ie.setu.utils.mapToActivity
 import org.jetbrains.exposed.sql.*
+import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.transactions.transaction
 
 class ActivityDAO {
@@ -50,4 +52,37 @@ class ActivityDAO {
         }
     }
 
+    fun deleteByUserId(userId: Int): Int {
+        return transaction {
+            Activities.deleteWhere { Activities.userId eq userId }
+        }
+    }
+
+    fun delete(id: Int): Int {
+        return transaction {
+            Activities.deleteWhere { Activities.id eq id }
+        }
+    }
+
+    fun update(id: Int, activity: Activity) {
+        transaction {
+            Activities.update({ Activities.id eq id }) {
+                it[description] = activity.description
+                it[duration] = activity.duration
+                it[calories] = activity.calories
+                it[started] = activity.started
+                it[userId] = activity.userId
+            }
+        }
+    }
+
+    fun findById(id: Int): Activity? {
+        return transaction {
+            Activities
+                .selectAll()
+                .where { Activities.id eq id }
+                .map { mapToActivity(it) }
+                .firstOrNull()
+        }
+    }
 }

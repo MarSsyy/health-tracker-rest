@@ -91,6 +91,51 @@ object HealthTrackerController {
         ctx.json(activity)
     }
 
+    fun deleteActivitiesByUserId(ctx: Context) {
+        val userId = ctx.pathParam("user-id").toInt()
+
+        val user = userDao.findById(userId)
+        if (user != null) {
+            activityDAO.deleteByUserId(userId)
+            ctx.status(204)
+        }
+    }
+
+    fun deleteActivityByActivityId(ctx: Context) {
+        val activityId = ctx.pathParam("activity-id").toInt()
+
+        val activity = activityDAO.findById(activityId)
+        if (activity != null) {
+            activityDAO.delete(activityId)
+            ctx.status(204)
+        }
+    }
+
+    fun updateActivityByActivityId(ctx: Context) {
+        val activityId = ctx.pathParam("activity-id").toInt()
+        val activity = activityDAO.findById(activityId)
+
+        if (activity != null) {
+            val mapper = jacksonObjectMapper()   // same as User version
+            val updatedActivity = mapper.readValue<Activity>(ctx.body())
+
+            activityDAO.update(activityId, updatedActivity)
+            ctx.status(200).json(updatedActivity)
+        }
+    }
+
+
+
+    fun getActivityByActivityId(ctx: Context) {
+        val activityId = ctx.pathParam("activity-id").toInt()
+
+        val activity = activityDAO.findById(activityId)
+        if (activity != null) {
+            ctx.json(activity)
+        }
+    }
+
+
 
 
 
