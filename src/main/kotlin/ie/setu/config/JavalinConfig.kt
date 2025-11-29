@@ -1,6 +1,7 @@
 package ie.setu.config
 
-import ie.setu.controllers.HealthTrackerController
+import ie.setu.controllers.ActivityController
+import ie.setu.controllers.UserController
 import ie.setu.utils.jsonObjectMapper
 import io.javalin.Javalin
 import io.javalin.json.JavalinJackson
@@ -24,19 +25,20 @@ class JavalinConfig {
     }
 
     private fun registerRoutes(app: Javalin) {
-        app.get("/api/users", HealthTrackerController::getAllUsers)
-        app.get("/api/users/{user-id}", HealthTrackerController::getUserByUserId)
-        app.post("/api/users", HealthTrackerController::addUser)
-        app.delete("/api/users/{user-id}", HealthTrackerController::deleteUserById)
-        app.patch("/api/users/{user-id}", HealthTrackerController::updateUserById)
-        app.get("/api/users/email/{email}", HealthTrackerController::getUserByEmail)
-        app.get("/api/activities", HealthTrackerController::getAllActivities)
-        app.post("/api/activities", HealthTrackerController::addActivity)
-        app.get("/api/users/{user-id}/activities", HealthTrackerController::getActivitiesByUserId)
-        app.delete("/api/users/{user-id}/activities", HealthTrackerController::deleteActivitiesByUserId)
-        app.delete("/api/activities/{activity-id}", HealthTrackerController::deleteActivityByActivityId)
-        app.patch("/api/activities/{activity-id}", HealthTrackerController::updateActivityByActivityId)
-        app.get("/api/activities/{activity-id}", HealthTrackerController::getActivityByActivityId)
+        app.get("/api/users", UserController::getAllUsers)
+        app.get("/api/users/{user-id}", UserController::getUserByUserId)
+        app.post("/api/users", UserController::addUser)
+        app.delete("/api/users/{user-id}", UserController::deleteUserById)
+        app.patch("/api/users/{user-id}", UserController::updateUserById)
+        app.get("/api/users/email/{email}", UserController::getUserByEmail)
+
+        app.get("/api/activities", ActivityController::getAllActivities)
+        app.post("/api/activities", ActivityController::addActivity)
+        app.get("/api/users/{user-id}/activities", ActivityController::getActivitiesByUserId)
+        app.delete("/api/users/{user-id}/activities", ActivityController::deleteActivitiesByUserId)
+        app.delete("/api/activities/{activity-id}", ActivityController::deleteActivityByActivityId)
+        app.patch("/api/activities/{activity-id}", ActivityController::updateActivityByActivityId)
+        app.get("/api/activities/{activity-id}", ActivityController::getActivityByActivityId)
 
 
     }
