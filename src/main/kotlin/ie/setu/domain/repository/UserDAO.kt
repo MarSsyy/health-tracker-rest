@@ -61,6 +61,7 @@ class UserDAO {
             Users.update ({
                 Users.id eq id}) {
                 it[name] = user.name
+                it[email] = user.email
                 it[password] = user.password
                 it[age] = user.age
                 it[gender] = user.gender
