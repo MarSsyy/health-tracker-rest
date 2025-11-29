@@ -20,7 +20,6 @@ class ActivityDAO {
         return activitiesList
     }
 
-    //Find a specific activity by activity id
     fun findByActivityId(id: Int): Activity?{
         return transaction {
             Activities
@@ -30,7 +29,6 @@ class ActivityDAO {
         }
     }
 
-    //Find all activities for a specific user id
     fun findByUserId(userId: Int): List<Activity>{
         return transaction {
             Activities
@@ -39,7 +37,6 @@ class ActivityDAO {
         }
     }
 
-    //Save an activity to the database
     fun save(activity: Activity){
         transaction {
             Activities.insert {
