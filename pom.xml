@@ -40,6 +40,22 @@
     </profiles>
 
     <dependencies>
+
+        <!-- Unirest for Integration Testing -->
+        <dependency>
+            <groupId>com.konghq</groupId>
+            <artifactId>unirest-java-core</artifactId>
+            <version>4.5.1</version>
+            <scope>provided</scope>
+        </dependency>
+        <!-- Unirest Gson Object Mapper for JSON -->
+        <dependency>
+            <groupId>com.konghq</groupId>
+            <artifactId>unirest-object-mappers-gson</artifactId>
+            <version>4.2.9</version>
+            <scope>test</scope>
+        </dependency>
+
         <!-- json dependency for serialising joda date time -->
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
@@ -162,6 +178,18 @@
             <artifactId>junit-platform-launcher</artifactId>
             <version>${junit.platform.version}</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.13.1</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>RELEASE</version>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
 

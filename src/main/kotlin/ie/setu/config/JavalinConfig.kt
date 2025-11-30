@@ -40,6 +40,7 @@ class JavalinConfig {
         app.patch("/api/activities/{activity-id}", ActivityController::updateActivityByActivityId)
         app.get("/api/activities/{activity-id}", ActivityController::getActivityByActivityId)
 
+        app.get("/api/users/{user-id}/bmi", UserController::getUserBmi)
 
     }
 

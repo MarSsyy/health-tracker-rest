@@ -201,9 +201,23 @@ class UserDAOTest {
         }
     }
 
+    @Nested
+    inner class BMITests {
 
+        @Test
+        fun `BMI calculation is correct for a specific user`() {
+            transaction {
+                val userDAO = populateUserTable()
+                val user = userDAO.findById(user1.id)!!
 
+                // BMI formula: weight / (height^2)
+                val bmi = user.weight!! / (user.height!! * user.height!!)
+                val rounded = String.format("%.2f", bmi)
 
+                assertEquals("24.22", rounded)
+            }
+        }
+    }
 
 }
 

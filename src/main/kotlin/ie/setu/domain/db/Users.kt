@@ -13,6 +13,8 @@ object Users : Table("users") {
     val age = integer("age").nullable()
     val gender = varchar("gender", 10).nullable()
     val password = varchar("password", 255)
+    val height = double("height").nullable()
+    val weight = double("weight").nullable()
 
 
     override val primaryKey = PrimaryKey(id, name = "PK_Users_ID")
