@@ -15,7 +15,7 @@ object Users : Table("users") {
     val password = varchar("password", 255)
     val height = double("height").nullable()
     val weight = double("weight").nullable()
-    val activityLevel = varchar("activityLevel", 20).nullable()
+    val activityLevel = varchar("activity_level", 20).nullable()
 
 
     override val primaryKey = PrimaryKey(id, name = "PK_Users_ID")
