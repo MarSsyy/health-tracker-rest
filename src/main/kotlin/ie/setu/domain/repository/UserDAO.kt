@@ -38,6 +38,7 @@ class UserDAO {
                 it[password] = user.password
                 it[height] = user.height
                 it[weight] = user.weight
+                it[activityLevel] = user.activityLevel
             } get Users.id
         }
     }
@@ -68,6 +69,7 @@ class UserDAO {
                 it[gender] = user.gender
                 it[height] = user.height
                 it[weight] = user.weight
+                it[activityLevel] = user.activityLevel
             }
         }
     }

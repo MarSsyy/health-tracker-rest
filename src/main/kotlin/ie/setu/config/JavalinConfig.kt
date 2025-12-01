@@ -41,6 +41,8 @@ class JavalinConfig {
         app.get("/api/activities/{activity-id}", ActivityController::getActivityByActivityId)
 
         app.get("/api/users/{user-id}/bmi", UserController::getUserBmi)
+        app.get("/api/users/{user-id}/calories", UserController::getUserCalories)
+
 
     }
 

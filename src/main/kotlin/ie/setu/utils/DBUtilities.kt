@@ -15,7 +15,8 @@ fun mapToUser(it: ResultRow) = User(
     gender = it[Users.gender],
     password = it[Users.password],
     height = it[Users.height],
-    weight = it[Users.weight]
+    weight = it[Users.weight],
+    activityLevel = it[Users.activityLevel]
 )
 
 fun mapToActivity(it: ResultRow) = Activity(

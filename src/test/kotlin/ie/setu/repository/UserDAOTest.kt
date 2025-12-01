@@ -202,21 +202,53 @@ class UserDAOTest {
     }
 
     @Nested
-    inner class BMITests {
+    inner class HealthTests {
 
         @Test
         fun `BMI calculation is correct for a specific user`() {
             transaction {
                 val userDAO = populateUserTable()
                 val user = userDAO.findById(user1.id)!!
-
-                // BMI formula: weight / (height^2)
                 val bmi = user.weight!! / (user.height!! * user.height!!)
                 val rounded = String.format("%.2f", bmi)
 
                 assertEquals("24.22", rounded)
             }
         }
+
+
+        @Test
+        fun `BMR calculation is correct for a specific user`() {
+                transaction {
+
+                    val userDAO = populateUserTable()
+                    val user = userDAO.findById(user1.id)!!
+
+                    val weight = user.weight!!
+                    val heightCm = user.height!! * 100
+                    val age = user.age!!
+                    val gender = user.gender!!.lowercase()
+
+                    //BMR using Mifflin-St Formula
+                    val bmr = if (gender == "male") {
+                        10 * weight + 6.25 * heightCm - 5 * age + 5
+                    } else {
+                        10 * weight + 6.25 * heightCm - 5 * age - 161
+                    }
+                    val surplus = bmr + 300
+                    val deficit = bmr - 300
+
+                    val rounded = String.format("%.2f", bmr)
+                    val roundedSurplus = String.format("%.2f", surplus)
+                    val roundedDeficit = String.format("%.2f", deficit)
+
+
+                    assertEquals("1476.50", rounded)
+                    assertEquals("1776.50", roundedSurplus)
+                    assertEquals("1176.50", roundedDeficit)
+                }
+            }
+
     }
 
 }

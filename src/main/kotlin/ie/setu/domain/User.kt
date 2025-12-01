@@ -9,5 +9,6 @@ data class User(
     val age: Int? = null,
     val gender: String? = null,
     val height: Double? = null,
-    val weight: Double? = null)
+    val weight: Double? = null,
+    val activityLevel: String? = null)
 

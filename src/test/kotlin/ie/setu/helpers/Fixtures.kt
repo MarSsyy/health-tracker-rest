@@ -12,7 +12,7 @@ val validEmail = "testuser1@test.com"
 
 
 val users = arrayListOf<User>(
-    User(name = "Alice Wonderland", email = "alice@wonderland.com", id = 1, password = "testpassword", height = 1.70, weight = 70.0),
+    User(name = "Alice Wonderland", email = "alice@wonderland.com", id = 1, password = "testpassword", age= 25, height = 1.70, weight = 70.0, gender = "female", activityLevel = "light"),
     User(name = "Bob Cat", email = "bob@cat.ie", id = 2, password = "testpassword", height = 1.70, weight = 70.0),
     User(name = "Mary Contrary", email = "mary@contrary.com", id = 3, password = "testpassword", height = 1.70, weight = 70.0),
     User(name = "Carol Singer", email = "carol@singer.com", id = 4, password = "testpassword", height = 1.70, weight = 70.0)

@@ -89,7 +89,7 @@ object UserController {
         val bmi = weight / (height * height)
         val bmiRounded = String.format("%.2f", bmi)
 
-        ctx.json(
+        ctx.status(200).json(
             mapOf(
                 "userId" to userId,
                 "height" to height,
@@ -98,6 +98,64 @@ object UserController {
             )
         )
     }
+
+    fun getUserCalories(ctx: Context) {
+
+        val userId = ctx.pathParam("user-id").toInt()
+        val user = userDAO.findById(userId)
+
+        if (user == null) {
+            ctx.status(404).json("User not found.")
+            return
+        }
+
+        val height = user.height
+        val weight = user.weight
+        val age = user.age
+        val gender = user.gender?.lowercase()
+        val activity = user.activityLevel?.lowercase()
+
+        if (height == null || weight == null || age == null || gender == null || activity == null) {
+            ctx.status(400).json("Height, weight, age, gender and activity level are required.")
+            return
+        }
+
+        val heightCm = height * 100
+
+        // BMR formula (Mifflin–St Jeor Equation)
+        val bmr = when (gender) {
+            "male" -> 10 * weight + 6.25 * heightCm - 5 * age + 5
+            "female" -> 10 * weight + 6.25 * heightCm - 5 * age - 161
+            else -> {
+                ctx.status(400).json("Gender must be 'male' or 'female'.")
+                return
+            }
+        }
+
+        val multiplier = when (activity) {
+            "light" -> 1.375
+            "moderate" -> 1.55
+            "active" -> 1.725
+            else -> {
+                ctx.status(400).json("Invalid activity level.")
+                return
+            }
+        }
+
+        val maintenance = bmr * multiplier
+        val gain = maintenance + 300
+        val loss = maintenance - 300
+
+        ctx.status(200).json(
+            mapOf(
+                "bmr" to String.format("%.0f", bmr),
+                "maintenanceCalories" to String.format("%.0f", maintenance),
+                "surplusCalories" to String.format("%.0f", gain),
+                "deficitCalories" to String.format("%.0f", loss)
+            )
+        )
+    }
+
 
 }
 
