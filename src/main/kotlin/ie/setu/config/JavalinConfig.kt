@@ -5,12 +5,16 @@ import ie.setu.controllers.UserController
 import ie.setu.utils.jsonObjectMapper
 import io.javalin.Javalin
 import io.javalin.json.JavalinJackson
+import io.javalin.vue.VueComponent
 
 class JavalinConfig {
 
     val app = Javalin.create(
         { config ->
             config.jsonMapper(JavalinJackson(jsonObjectMapper()))
+            config.staticFiles.enableWebjars()
+            config.vue.vueInstanceNameInJs = "app"
+
         }
     ).apply {
         exception(Exception::class.java) { e, ctx -> e.printStackTrace() }
@@ -42,6 +46,9 @@ class JavalinConfig {
 
         app.get("/api/users/{user-id}/bmi", UserController::getUserBmi)
         app.get("/api/users/{user-id}/calories", UserController::getUserCalories)
+
+        app.get("/", VueComponent("<home-page></home-page>"))
+        app.get("/users", VueComponent("<user-overview></user-overview>"))
 
 
     }

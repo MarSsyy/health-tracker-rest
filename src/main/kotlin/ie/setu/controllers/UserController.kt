@@ -20,7 +20,6 @@ object UserController {
         ctx.json(users)
     }
 
-
     fun getUserByUserId(ctx: Context) {
         val user = userDAO.findById(ctx.pathParam("user-id").toInt())
         if (user != null) {

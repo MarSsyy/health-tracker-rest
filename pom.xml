@@ -40,6 +40,17 @@
     </profiles>
 
     <dependencies>
+        <!-- adding Vue -->
+        <dependency>
+            <groupId>org.webjars.npm</groupId>
+            <artifactId>vue</artifactId>
+            <version>3.5.12</version>
+        </dependency>
+        <dependency>
+            <groupId>org.webjars.npm</groupId>
+            <artifactId>axios</artifactId>
+            <version>1.7.7</version>
+        </dependency>
 
         <!-- Unirest for Integration Testing -->
         <dependency>
@@ -91,7 +102,6 @@
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
             <version>2.3.232</version>
-            <scope>test</scope>
         </dependency>
 
         <!-- for openshift -->
