@@ -18,8 +18,8 @@ jobs:
     - name: Set up JDK 17
       uses: actions/setup-java@v4
       with:
-        distribution: 'temurin' 
-        java-version: '17'
+        distribution: '#39;temurin'#39; 
+        java-version: '#39;17'#39;
 
     - name: Setup Maven
       uses: stCarolas/setup-maven@v5
@@ -34,6 +34,23 @@ jobs:
       with:
         name: target-artifact
         path: target/
+
+  test:
+    name: Automated Testing
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+          cache: 'maven'
+
+      - name: Run Tests
+        run: mvn test
 
   deploy:
     name: Deploy to OpenShift
@@ -57,9 +74,11 @@ jobs:
         OPENSHIFT_TOKEN: ${{ secrets.OPENSHIFT_TOKEN }}
       run: |
         oc login $OPENSHIFT_API_URL --token=$OPENSHIFT_TOKEN --insecure-skip-tls-verify=true
+
     - name: Set project to msc-agile-sem1-25-fhasan
       run: |
         oc project msc-agile-sem1-25-fhasan
+
     - name: Build and deploy the app to OpenShift
       run: |
         # OpenShift setup uses Source-to-Image (S2I) 
@@ -68,3 +87,4 @@ jobs:
     - name: Check deployment status
       run: |
         oc rollout status deployment/health-tracker-rest
+
