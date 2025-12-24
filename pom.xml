@@ -22,6 +22,8 @@
         <exposed-version>0.61.0</exposed-version>
         <postresql-version>42.7.7</postresql-version>
         <openshift-maven-plugin.version>1.18.1</openshift-maven-plugin.version>
+        <dokka.version>2.1.0</dokka.version>
+
     </properties>
 
     <profiles>
@@ -140,6 +142,7 @@
             <artifactId>kotlin-logging-jvm</artifactId>
             <version>7.0.0</version>
         </dependency>
+        <!-- Location of the Maven Plugin for Dokka -->
 
         <!-- json dependency for serialising json to objects -->
         <dependency>
@@ -207,7 +210,27 @@
         <sourceDirectory>src/main/kotlin</sourceDirectory>
         <testSourceDirectory>src/test/kotlin</testSourceDirectory>
 
+
         <plugins>
+            <!-- Maven Plugin for Dokka - basic configuration -->
+            <!-- Maven Plugin for Dokka - basic configuration -->
+            <plugin>
+                <groupId>org.jetbrains.dokka</groupId>
+                <artifactId>dokka-maven-plugin</artifactId>
+                <version>${dokka.version}</version>
+                <executions>
+                    <execution>
+                        <phase>pre-site</phase>
+                        <goals>
+                            <goal>dokka</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+
+
+
             <!-- surefire plugin MOJO - for testing during maven lifecycle-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
