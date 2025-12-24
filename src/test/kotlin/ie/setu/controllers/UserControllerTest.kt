@@ -5,6 +5,7 @@ import ie.setu.domain.User
 import ie.setu.domain.db.Users
 import ie.setu.domain.repository.UserDAO
 import ie.setu.helpers.ServerContainer
+import ie.setu.helpers.TestDatabaseConfig
 import ie.setu.helpers.nonExistingEmail
 import ie.setu.helpers.users
 import ie.setu.helpers.validEmail
@@ -21,6 +22,8 @@ import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotEquals
+import org.junit.jupiter.api.BeforeAll
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
@@ -33,9 +36,21 @@ val user3 = users[2]
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class UserControllerTest {
 
-    private val db = DbConfig().getDbConnection()
     private val app = ServerContainer.instance
     private val origin = "http://localhost:" + app.port()
+
+    companion object {
+        @BeforeAll
+        @JvmStatic
+        fun setupInMemoryDatabase() {
+            TestDatabaseConfig.connect()
+        }
+    }
+
+    @BeforeEach
+    fun resetDatabase() {
+        TestDatabaseConfig.reset()
+    }
 
     internal fun populateUserTable(): UserDAO{
         SchemaUtils.create(Users)
@@ -45,6 +60,7 @@ class UserControllerTest {
         userDAO.save(user3)
         return userDAO
     }
+
     @Nested
     inner class ReadUsers {
         //tests go in here
@@ -217,7 +233,7 @@ class UserControllerTest {
     //helper function to add a test user to the database
     private fun addUser (name: String, email: String): HttpResponse<JsonNode> {
         return Unirest.post(origin + "/api/users")
-            .body("{\"name\":\"$name\", \"email\":\"$email\"}")
+            .body("{\"name\":\"$name\", \"email\":\"$email\", \"password\":\"test123\"}")
             .asJson()
     }
 
@@ -239,7 +255,7 @@ class UserControllerTest {
     //helper function to add a test user to the database
     private fun updateUser (id: Int, name: String, email: String): HttpResponse<JsonNode> {
         return Unirest.patch(origin + "/api/users/$id")
-            .body("{\"name\":\"$name\", \"email\":\"$email\"}")
+            .body("{\"name\":\"$name\", \"email\":\"$email\", \"password\":\"test123\"}")
             .asJson()
     }
 

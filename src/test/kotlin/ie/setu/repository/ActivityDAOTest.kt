@@ -5,12 +5,14 @@ import ie.setu.domain.db.Activities
 import ie.setu.domain.db.Users
 import ie.setu.domain.repository.ActivityDAO
 import ie.setu.domain.repository.UserDAO
+import ie.setu.helpers.TestDatabaseConfig
 import ie.setu.helpers.activities
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeAll
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
@@ -23,17 +25,16 @@ val activity3 = activities[2]
 class ActivityDAOTest {
 
     companion object {
-
         @BeforeAll
         @JvmStatic
-        internal fun setupInMemoryDatabaseConnection() {
-            Database.connect(
-                url = "jdbc:h2:mem:test",
-                driver = "org.h2.Driver",
-                user = "root",
-                password = ""
-            )
+        fun setupInMemoryDatabase() {
+            TestDatabaseConfig.connect()
         }
+    }
+
+    @BeforeEach
+    fun resetDatabase() {
+        TestDatabaseConfig.reset()
     }
 
     internal fun populateActivityTable(): ActivityDAO {
