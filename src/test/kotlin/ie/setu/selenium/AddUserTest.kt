@@ -15,6 +15,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.openqa.selenium.*
 import org.openqa.selenium.chrome.ChromeDriver
+import org.openqa.selenium.chrome.ChromeOptions
 import java.time.Duration
 
 val user1 = users[0]
@@ -43,9 +44,11 @@ class AddUserTest {
         //Reset the h2 database and give it starting users and activities
         TestDatabaseConfig.reset()
         seedTestData()
-
-        System.setProperty("java.awt.headless", "true") // Run in headless mode
-        driver = ChromeDriver()
+        val options = ChromeOptions()
+        options.addArguments("--headless=new")
+        options.addArguments("--no-sandbox")
+        options.addArguments("--disable-dev-shm-usage")
+        driver = ChromeDriver(options)
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(60))
         js = driver as JavascriptExecutor
     }
