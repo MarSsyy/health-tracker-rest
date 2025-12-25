@@ -42,6 +42,20 @@
     </profiles>
 
     <dependencies>
+        <!-- adding selenium -->
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-java</artifactId>
+            <version>4.38.0</version>
+        </dependency>
+
+        <!-- for testing Javalin with Selenium -->
+        <dependency>
+            <groupId>io.javalin</groupId>
+            <artifactId>javalin-testtools</artifactId>
+            <version>6.1.4</version>
+        </dependency>
+
         <!-- adding Vue -->
         <dependency>
             <groupId>org.webjars.npm</groupId>
@@ -204,6 +218,7 @@
             <version>RELEASE</version>
             <scope>compile</scope>
         </dependency>
+
     </dependencies>
 
     <build>

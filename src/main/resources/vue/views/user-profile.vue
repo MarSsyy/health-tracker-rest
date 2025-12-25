@@ -43,6 +43,12 @@
             </div>
             <input type="email" class="form-control" v-model="user.email" name="email" placeholder="Email"/>
           </div>
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text">Password</span>
+            </div>
+            <input type="password" class="form-control" v-model="user.password" name="password" placeholder="Password"/>
+          </div>
         </form>
       </div>
       <div class="card-footer text-left">
@@ -87,18 +93,23 @@ app.component("user-profile", {
   methods: {
     updateUser: function () {
       const userId = this.$javalin.pathParams["user-id"];
-      const url = `/api/users/${userId}`
-      axios.patch(url,
-          {
-            name: this.user.name,
-            email: this.user.email
+      const url = `/api/users/${userId}`;
+
+      axios.patch(url, {
+        id: this.user.id,
+        name: this.user.name,
+        email: this.user.email,
+        password: this.user.password
+      })
+          .then(response => {
+            this.user = response.data;
+            alert("User updated!");
+            window.location.href = '/users'
           })
-          .then(response =>
-              this.user.push(response.data))
           .catch(error => {
-            console.log(error)
-          })
-      alert("User updated!")
+            console.log(error);
+            alert("Update failed");
+          });
     },
     deleteUser: function () {
       if (confirm("Do you really want to delete?")) {
