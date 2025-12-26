@@ -36,13 +36,15 @@ val user3 = users[2]
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class UserControllerTest {
 
-    private val app = ServerContainer.instance
-    private val origin = "http://localhost:" + app.port()
+    private val app by lazy { ServerContainer.instance }
+    private val origin by lazy { "http://localhost:" + app.port() }
+
 
     companion object {
         @BeforeAll
         @JvmStatic
         fun setupInMemoryDatabase() {
+            System.setProperty("DISABLE_AUTH", "true")
             TestDatabaseConfig.connect()
         }
     }
