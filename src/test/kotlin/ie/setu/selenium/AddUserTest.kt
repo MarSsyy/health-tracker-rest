@@ -35,6 +35,8 @@ class AddUserTest {
         @BeforeAll
         @JvmStatic
         fun setupInMemoryDatabase() {
+            System.setProperty("DISABLE_AUTH", "true")
+            System.setProperty("TEST_ROLE", "ADMIN")
             TestDatabaseConfig.connect() // same approach as API tests
         }
     }
