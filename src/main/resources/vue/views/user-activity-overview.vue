@@ -5,7 +5,7 @@
       <div class="card-header">
         <div class="row">
           <div class="col-6">
-            User Activities
+            Add Activity
           </div>
           <div class="col" align="right">
             <button rel="tooltip" title="Add"
@@ -57,35 +57,55 @@
           </div>
         </form>
 
-        <button class="btn btn-info btn-simple btn-link"
+        <button class="btn btn-primary"
                 @click="addActivity()">Add Activity</button>
       </div>
     </div>
 
     <!-- Activities List -->
-    <div class="list-group list-group-flush">
-      <div class="list-group-item d-flex align-items-start"
-           v-for="(activity, index) in activities"
-           :key="activity.id">
-        <div class="mr-auto p-2">
-          <span>
-            {{ activity.description }}
-            ({{ activity.duration }} mins, {{ activity.calories }} cal)
-          </span>
-          <div class="small text-muted" v-if="activity.started">
-            Started: {{ activity.started }}
-          </div>
+
+    <div class="card bg-light mb-3">
+      <div class="card-header">
+        <div class="row">
+          <div class="col-6">Activity History</div>
+        </div>
+      </div>
+
+      <div class="card-body p-0">
+        <div v-if="activities.length === 0" class="p-3 text-muted">
+          No activities yet.
         </div>
 
-        <div class="p2">
-          <button rel="tooltip" title="Delete"
-                  class="btn btn-info btn-simple btn-link"
-                  @click="deleteActivity(activity, index)">
-            <i class="fas fa-trash"></i>
-          </button>
+        <div v-else class="list-group list-group-flush">
+          <div class="list-group-item d-flex align-items-start"
+               v-for="(activity, index) in activities"
+               :key="index">
+
+            <div class="me-auto p-2">
+              <div>
+                <strong>{{ activity.description }}</strong>
+                ({{ activity.duration }} mins, {{ activity.calories }} cal)
+              </div>
+
+              <div class="small text-muted" v-if="activity.started">
+                Started: {{ activity.started }}
+              </div>
+            </div>
+
+            <div class="p-2">
+              <button rel="tooltip" title="Delete"
+                      class="btn btn-info btn-simple btn-link"
+                      v-if="isAdmin"
+                      @click="deleteActivity(activity, index)">
+                <i class="fas fa-trash"></i>
+              </button>
+            </div>
+
+          </div>
         </div>
       </div>
     </div>
+
   </app-layout>
 </template>
 
@@ -122,19 +142,25 @@ app.component("user-activity-overview", {
         calories: this.formData.calories,
         userId: this.userId
       })
-          .then(res => {
-            this.activities.push(res.data);
+          .then(() => {
+            // optional: close form
             this.hideForm = true;
 
-            // reset form
+            // optional: reset form
             this.formData = {
               description: "",
               duration: null,
               started: "",
               calories: null
             };
+
+            // ✅ FULL PAGE REFRESH
+            window.location.reload();
           })
-          .catch(err => console.log(err));
+          .catch(err => {
+            console.log(err);
+            alert("Failed to add activity");
+          });
     },
 
     deleteActivity(activity, index) {
@@ -143,7 +169,13 @@ app.component("user-activity-overview", {
             .then(() => this.activities.splice(index, 1))
             .catch(err => console.log(err));
       }
+    },
+    computed: {
+      isAdmin() {
+        return this.me && this.me.role === "ADMIN";
+      }
     }
+
   }
 });
 </script>

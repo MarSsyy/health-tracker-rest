@@ -10,6 +10,7 @@ object Users : Table("users") {
     val id = integer("id").autoIncrement()
     val name = varchar("name", 100)
     val email = varchar("email", 255)
+    val role = varchar("role", 20).default("USER")
     val age = integer("age").nullable()
     val gender = varchar("gender", 10).nullable()
     val password = varchar("password", 255)

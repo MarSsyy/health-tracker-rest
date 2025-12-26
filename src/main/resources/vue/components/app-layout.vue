@@ -12,14 +12,26 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto">
-            <li class="nav-item active">
+
+            <li class="nav-item" v-if="user && user.role === 'ADMIN'">
               <a class="nav-link" href="/users">Users</a>
             </li>
-            <li class="nav-item">
+
+            <li class="nav-item" v-if="user && user.role === 'ADMIN'">
               <a class="nav-link" href="/activities">Activities</a>
             </li>
+
+            <li class="nav-item" v-if="user && user.role === 'USER'">
+              <a class="nav-link" :href="`/users/${user.id}`">My Profile</a>
+            </li>
           </ul>
+
         </div>
+
+        <button class="btn btn-danger btn-sm" @click="logout">
+          Logout
+        </button>
+
       </nav>
       <!--End of nav bar-->
       <!--Start of main content area-->
@@ -34,8 +46,29 @@
 </template>
 
 <script>
-app.component("app-layout", {template: "#app-layout"});
+app.component("app-layout", {
+  template: "#app-layout",
+  data: () => ({
+    user: null
+  }),
+  created() {
+    axios.get("/api/auth/me")
+        .then(res => {
+          this.user = res.data;
+        })
+        .catch(() => {
+          window.location.href = "/login";
+        });
+  },
+  methods: {
+    logout() {
+      axios.post("/api/auth/logout")
+          .then(() => window.location.href = "/login");
+    }
+  }
+});
 </script>
+
 
 <style>
 .navbar {

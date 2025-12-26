@@ -41,6 +41,7 @@ class UserDAO {
                 it[age] = user.age
                 it[gender] = user.gender
                 it[password] = user.password
+                it[role] = user.role
                 it[height] = user.height
                 it[weight] = user.weight
                 it[activityLevel] = user.activityLevel
@@ -70,6 +71,7 @@ class UserDAO {
                 it[name] = user.name
                 it[email] = user.email
                 it[password] = user.password
+                it[role] = user.role
                 it[age] = user.age
                 it[gender] = user.gender
                 it[height] = user.height

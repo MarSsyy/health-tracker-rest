@@ -42,6 +42,7 @@
     </profiles>
 
     <dependencies>
+
         <!-- adding selenium -->
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
@@ -217,6 +218,13 @@
             <artifactId>junit-jupiter</artifactId>
             <version>RELEASE</version>
             <scope>compile</scope>
+        </dependency>
+        <!-- For mocking out the database -->
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>5.5.0</version>
+            <scope>test</scope>
         </dependency>
 
     </dependencies>

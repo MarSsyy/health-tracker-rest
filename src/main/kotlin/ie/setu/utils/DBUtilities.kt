@@ -1,8 +1,10 @@
 package ie.setu.utils
 
 import ie.setu.domain.Activity
+import ie.setu.domain.Challenge
 import ie.setu.domain.User
 import ie.setu.domain.db.Activities
+import ie.setu.domain.db.Challenges
 import ie.setu.domain.db.Users
 import org.jetbrains.exposed.sql.ResultRow
 
@@ -14,6 +16,7 @@ fun mapToUser(it: ResultRow) = User(
     age = it[Users.age],
     gender = it[Users.gender],
     password = it[Users.password],
+    role = it[Users.role],
     height = it[Users.height],
     weight = it[Users.weight],
     activityLevel = it[Users.activityLevel]
@@ -27,4 +30,11 @@ fun mapToActivity(it: ResultRow) = Activity(
     calories = it[Activities.calories],
     userId = it[Activities.userId]
 )
+
+fun mapToChallenge(it: ResultRow) = Challenge(
+    id = it[Challenges.id],
+    name = it[Challenges.name],
+    description = it[Challenges.description]
+)
+
 

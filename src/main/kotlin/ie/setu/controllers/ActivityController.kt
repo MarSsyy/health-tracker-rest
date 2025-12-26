@@ -35,8 +35,8 @@ object ActivityController {
 
     fun addActivity(ctx: Context) {
         val activity = jsonToObject<Activity>(ctx.body())
-        activityDAO.save(activity)
-        ctx.json(activity)
+        val saved = activityDAO.save(activity)     // save returns Activity with id
+        ctx.status(201).json(saved)
     }
 
 

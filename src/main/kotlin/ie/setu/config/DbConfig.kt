@@ -1,6 +1,7 @@
 package ie.setu.config
 
 import ie.setu.domain.db.Activities
+import ie.setu.domain.db.Challenges
 import ie.setu.domain.db.Users
 import io.github.oshai.kotlinlogging.KotlinLogging
 import org.jetbrains.exposed.sql.Database
@@ -37,6 +38,7 @@ class DbConfig {
                 transaction {
                     SchemaUtils.create(Users)
                     SchemaUtils.create(Activities)
+                    SchemaUtils.create(Challenges)
                 }
             } else {
                 logger.info { "Using remote PostgreSQL instance." }

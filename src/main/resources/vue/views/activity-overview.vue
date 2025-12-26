@@ -38,7 +38,7 @@
             <div class="input-group-prepend">
               <span class="input-group-text" id="input-activity-started">Started</span>
             </div>
-            <!-- Using text keeps it simple & matches backend string/localdatetime formats -->
+
             <input type="text" class="form-control" v-model="formData.started"
                    name="started" placeholder="2025-12-23T07:30:00"/>
           </div>
@@ -83,7 +83,7 @@
         </div>
 
         <div class="p2">
-          <!-- Optional: go to user activities page -->
+
           <a :href="`/users/${activity.userId}/activities`">
             <button rel="tooltip" title="View User"
                     class="btn btn-info btn-simple btn-link">
