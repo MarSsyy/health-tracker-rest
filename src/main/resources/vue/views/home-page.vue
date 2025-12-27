@@ -23,6 +23,18 @@
             </div>
           </div>
         </div>
+
+        <div class="col">
+          <div class="card">
+            <h5 class="card-header">Total Challenges</h5>
+            <div class="card-body">
+              <h5 class="card-title">{{ challenges.length }} challenges</h5>
+              <a href="/challenges" class="btn btn-primary">More Details...</a>
+            </div>
+          </div>
+        </div>
+
+
       </div>
 
 
@@ -80,7 +92,7 @@
 
               <div class="card-body p-0">
                 <div v-if="challenges.length === 0" class="p-3 text-muted">
-                  No available challenges atm
+                  No available challenges at the moment.
                 </div>
 
                 <ul v-else class="list-group list-group-flush">

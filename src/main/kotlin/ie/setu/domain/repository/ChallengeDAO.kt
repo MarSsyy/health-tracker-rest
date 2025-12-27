@@ -4,7 +4,9 @@ import ie.setu.domain.Challenge
 import ie.setu.domain.db.Challenges
 import ie.setu.domain.db.UserChallenges
 import ie.setu.utils.mapToChallenge
+import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.and
+import org.jetbrains.exposed.sql.deleteWhere
 import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.transaction
@@ -56,5 +58,12 @@ class ChallengeDAO {
             true
         }
     }
+
+    fun delete(id: Int): Int {
+        return transaction {
+            Challenges.deleteWhere { Challenges.id eq id }
+        }
+    }
+
 
 }

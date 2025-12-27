@@ -90,8 +90,14 @@
           </div>
 
           <div class="input-group mb-3" v-if="isAdmin">
-          <span class="input-group-text">Role</span>
-            <input class="form-control" v-model="user.role" type="text" readonly />
+            <div class="input-group-prepend">
+              <span class="input-group-text">Role</span>
+            </div>
+
+            <select class="form-control" v-model="user.role" name="role">
+              <option value="USER">USER</option>
+              <option value="ADMIN">ADMIN</option>
+            </select>
           </div>
 
         </form>
@@ -108,11 +114,19 @@ app.component("user-profile", {
   data: () => ({
     user: null,
     activities: [],
-    noUserFound: false
+    noUserFound: false,
+    authUser: null
   }),
 
   created() {
+    this.getLoggedInUser();
     this.loadUser();
+  },
+
+  computed: {
+    isAdmin() {
+      return this.authUser && this.authUser.role === "ADMIN";
+    }
   },
 
   methods: {
@@ -133,6 +147,16 @@ app.component("user-profile", {
           .catch(() => { /* ok if none */ });
     },
 
+    getLoggedInUser() {
+      axios.get("/api/auth/me")
+          .then((res) => {
+            this.authUser = res.data;
+          })
+          .catch(() => {
+            this.authUser = null;
+          });
+    },
+
     updateUser() {
       const userId = this.$javalin.pathParams["user-id"];
       const url = `/api/users/${userId}`;
@@ -150,10 +174,10 @@ app.component("user-profile", {
         password: this.user.password,
         age: this.user.age,
         gender: this.user.gender,
-        height: this.user.height,           // ✅ meters
+        height: this.user.height,
         weight: this.user.weight,
         activityLevel: this.user.activityLevel,
-        role: this.user.role                // keep as is (read-only UI)
+        role: this.user.role
       })
           .then(() => {
             alert("User updated!");
@@ -181,12 +205,6 @@ app.component("user-profile", {
             alert("Delete failed");
           });
     },
-    computed: {
-      isAdmin() {
-        return this.user && this.user.role === "ADMIN";
-      }
-    }
-
   }
 });
 </script>

@@ -91,6 +91,11 @@ class JavalinConfig {
             if (ctx.method().name == "POST") Auth.requireAdmin(ctx)
         }
 
+        app.before("/api/challenges/{challenge-id}") { ctx ->
+            if (ctx.method().name == "DELETE") Auth.requireAdmin(ctx)
+        }
+
+
         // ---------- User routes ----------
         app.get("/api/users", UserController::getAllUsers)
         app.get("/api/users/{user-id}", UserController::getUserByUserId)
@@ -116,6 +121,8 @@ class JavalinConfig {
         app.get("/api/challenges", ChallengeController::getAllChallenges)
         app.post("/api/challenges", ChallengeController::addChallenge)
         app.post("/api/users/{user-id}/challenges/{challenge-id}", ChallengeController::joinChallenge)
+        app.delete("/api/challenges/{challenge-id}", ChallengeController::deleteChallengeById)
+
 
         // ---------- Page guards ----------
         app.before("/users") { ctx ->

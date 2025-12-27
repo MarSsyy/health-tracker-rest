@@ -62,7 +62,6 @@
       </div>
     </div>
 
-    <!-- Activities List -->
 
     <div class="card bg-light mb-3">
       <div class="card-header">
@@ -72,7 +71,7 @@
       </div>
 
       <div class="card-body p-0">
-        <div v-if="activities.length === 0" class="p-3 text-muted">
+        <div v-if="activities.length === 0" class="list-group-item text-center text-muted">
           No activities yet.
         </div>
 
@@ -90,15 +89,6 @@
               <div class="small text-muted" v-if="activity.started">
                 Started: {{ activity.started }}
               </div>
-            </div>
-
-            <div class="p-2">
-              <button rel="tooltip" title="Delete"
-                      class="btn btn-info btn-simple btn-link"
-                      v-if="isAdmin"
-                      @click="deleteActivity(activity, index)">
-                <i class="fas fa-trash"></i>
-              </button>
             </div>
 
           </div>
@@ -143,10 +133,8 @@ app.component("user-activity-overview", {
         userId: this.userId
       })
           .then(() => {
-            // optional: close form
             this.hideForm = true;
 
-            // optional: reset form
             this.formData = {
               description: "",
               duration: null,
@@ -154,28 +142,13 @@ app.component("user-activity-overview", {
               calories: null
             };
 
-            // ✅ FULL PAGE REFRESH
             window.location.reload();
           })
           .catch(err => {
             console.log(err);
             alert("Failed to add activity");
           });
-    },
-
-    deleteActivity(activity, index) {
-      if (confirm("Are you sure you want to delete this activity?")) {
-        axios.delete(`/api/activities/${activity.id}`)
-            .then(() => this.activities.splice(index, 1))
-            .catch(err => console.log(err));
-      }
-    },
-    computed: {
-      isAdmin() {
-        return this.me && this.me.role === "ADMIN";
-      }
     }
-
   }
 });
 </script>

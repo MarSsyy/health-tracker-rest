@@ -4,7 +4,7 @@
       <div class="card-header">
         <div class="row">
           <div class="col-6">
-            Users
+            Add User
           </div>
           <div class="col" align="right">
             <button rel="tooltip" title="Add"
@@ -39,25 +39,52 @@
         <button type="button" class="btn btn-primary" @click="addUser">Add User</button>
       </div>
     </div>
-    <div class="list-group list-group-flush">
-      <div class="list-group-item d-flex align-items-start"
-           v-for="(user,index) in users" v-bind:key="index">
-        <div class="mr-auto p-2">
-          <span><a :href="`/users/${user.id}`"> {{ user.name }} ({{ user.email }})</a></span>
-        </div>
-        <div class="p2">
-          <a :href="`/users/${user.id}`">
-            <button rel="tooltip" title="Update" class="btn btn-info btn-simple btn-link">
-              <i class="fa fa-pencil" aria-hidden="true"></i>
-            </button>
-          </a>
-          <button rel="tooltip" title="Delete" class="btn btn-info btn-simple btn-link"
-                  @click="deleteUser(user, index)">
-            <i class="fas fa-trash" aria-hidden="true"></i>
-          </button>
-        </div>
+
+    <div class="card bg-light mb-3">
+      <div class="card-header d-flex justify-content-between align-items-center">
+        Users List
+        <a class="btn btn-sm btn-outline-secondary" href="/">Back</a>
+      </div>
+
+      <div class="card-body p-0">
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item d-flex align-items-center"
+              v-for="(user, index) in users"
+              :key="user.id">
+
+            <div class="flex-grow-1">
+              <a :href="`/users/${user.id}`" class="font-weight-bold">
+                {{ user.name }}
+              </a>
+              <div class="text-muted small">
+                {{ user.email }}
+              </div>
+            </div>
+
+            <div class="btn-group">
+              <a :href="`/users/${user.id}`"
+                 class="btn btn-sm btn-outline-info"
+                 title="Update">
+                <i class="fa fa-pencil"></i>
+              </a>
+
+              <button class="btn btn-sm btn-outline-danger"
+                      title="Delete"
+                      @click="deleteUser(user, index)">
+                <i class="fas fa-trash"></i>
+              </button>
+            </div>
+
+          </li>
+
+          <li v-if="users.length === 0"
+              class="list-group-item text-center text-muted">
+            No users found
+          </li>
+        </ul>
       </div>
     </div>
+
   </app-layout>
 </template>
 <script>
@@ -78,7 +105,7 @@ app.component("user-overview", {
           .catch(() => alert("Error while fetching users"));
     },
     deleteUser: function (user, index) {
-      if (confirm('Are you sure you want to delete this user? This action cannot be undone.', 'Warning')) {
+      if (confirm('Are you sure you want to delete this user?')) {
         //user confirmed delete
         const userId = user.id;
         const url = `/api/users/${userId}`;

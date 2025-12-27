@@ -4,7 +4,7 @@
       <div class="card-header">
         <div class="row">
           <div class="col-6">
-            Activities
+            Add Activity
           </div>
           <div class="col" align="right">
             <button rel="tooltip" title="Add"
@@ -61,44 +61,58 @@
         </form>
 
         <button rel="tooltip" title="Add"
-                class="btn btn-info btn-simple btn-link"
+                class="btn btn-primary"
                 @click="addActivity()">Add Activity</button>
       </div>
     </div>
 
-    <div class="list-group list-group-flush">
-      <div class="list-group-item d-flex align-items-start"
-           v-for="(activity, index) in activities" :key="activity.id">
-        <div class="mr-auto p-2">
-          <span>
-            <a :href="`/users/${activity.userId}/activities`">
-              {{ activity.description }}
-              ({{ activity.duration }} mins, {{ activity.calories }} cal)
-              - User {{ activity.userId }}
-            </a>
-          </span>
-          <div class="small text-muted" v-if="activity.started">
-            Started: {{ activity.started }}
-          </div>
-        </div>
+    <div class="card bg-light mb-3">
+      <div class="card-header d-flex justify-content-between align-items-center">
+        Activity List
+        <a class="btn btn-sm btn-outline-secondary" href="/">Back</a>
+      </div>
 
-        <div class="p2">
+      <div class="card-body p-0">
+        <ul class="list-group list-group-flush">
 
-          <a :href="`/users/${activity.userId}/activities`">
-            <button rel="tooltip" title="View User"
-                    class="btn btn-info btn-simple btn-link">
-              <i class="fa fa-pencil" aria-hidden="true"></i>
-            </button>
-          </a>
+          <li class="list-group-item d-flex align-items-center"
+              v-for="(activity, index) in activities"
+              :key="activity.id">
 
-          <button rel="tooltip" title="Delete"
-                  class="btn btn-info btn-simple btn-link"
-                  @click="deleteActivity(activity, index)">
-            <i class="fas fa-trash" aria-hidden="true"></i>
-          </button>
-        </div>
+            <div class="flex-grow-1">
+              <div class="font-weight-bold">
+                {{ activity.description }}
+              </div>
+
+              <div class="text-muted small">
+                {{ activity.duration }} mins · {{ activity.calories }} cal
+                <span v-if="activity.started">· Started: {{ activity.started }}</span>
+              </div>
+
+              <div class="small">
+                User ID: {{ activity.userId }}
+              </div>
+            </div>
+
+            <div class="btn-group">
+              <button class="btn btn-sm btn-outline-danger"
+                      title="Delete Activity"
+                      @click="deleteActivity(activity, index)">
+                <i class="fas fa-trash"></i>
+              </button>
+            </div>
+
+          </li>
+
+          <li v-if="activities.length === 0"
+              class="list-group-item text-center text-muted">
+            No activities found.
+          </li>
+
+        </ul>
       </div>
     </div>
+
   </app-layout>
 </template>
 
@@ -127,7 +141,7 @@ app.component("activity-overview", {
     },
 
     deleteActivity(activity, index) {
-      if (confirm("Are you sure you want to delete this activity? This action cannot be undone.", "Warning")) {
+      if (confirm("Are you sure you want to delete this activity?")) {
         const url = `/api/activities/${activity.id}`;
         axios.delete(url)
             .then(() => {
@@ -153,6 +167,7 @@ app.component("activity-overview", {
 
             // reset form
             this.formData = { description: "", duration: null, started: "", calories: null, userId: null };
+            window.location.reload();
           })
           .catch(error => console.log(error));
     }

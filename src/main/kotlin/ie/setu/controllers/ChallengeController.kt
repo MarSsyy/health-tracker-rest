@@ -32,6 +32,15 @@ object ChallengeController {
         else ctx.status(409).json(mapOf("message" to "Already joined"))
     }
 
+    fun deleteChallengeById(ctx: Context) {
+        val id = ctx.pathParam("challenge-id").toInt()
+
+        val deleted = challengeDAO.delete(id)
+        if (deleted != 0) ctx.status(204)
+        else ctx.status(404).json("Challenge not found")
+    }
+
+
 
 }
 
