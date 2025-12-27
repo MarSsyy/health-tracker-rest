@@ -97,7 +97,7 @@ app.component("calorie-page", {
           })
           .catch(err => {
             console.log(err);
-            this.error = "Could not load calorie recommendation.";
+            this.error = "Could not load calorie recommendation. Please update your profile.";
           });
     }
   }

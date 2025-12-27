@@ -45,8 +45,9 @@ class JavalinConfig {
             val path = ctx.path()
             val isApi = path.startsWith("/api/")
             val isLoginPage = path == "/login"
+            val isSignupPage = path == "/signup"
 
-            if (!isApi && !isLoginPage) {
+            if (!isApi && !isLoginPage && !isSignupPage) {
                 Auth.requireLoginPage(ctx)
             }
         }
@@ -157,6 +158,7 @@ class JavalinConfig {
         app.get("/users/{user-id}/bmi", VueComponent("<bmi-page></bmi-page>"))
         app.get("/users/{user-id}/calories", VueComponent("<calorie-page></calorie-page>"))
         app.get("/challenges", VueComponent("<challenge-overview></challenge-overview>"))
+        app.get("/signup", VueComponent("<signup-page></signup-page>"))
     }
 
     private fun getRemoteAssignedPort(): Int {

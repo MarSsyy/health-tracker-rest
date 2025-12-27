@@ -12,7 +12,10 @@
         <label class="form-label">Password</label>
         <input v-model="password" class="form-control" type="password" />
       </div>
-
+      <div class="mb-3">
+        <span>Don’t have an account? </span>
+        <a href="/signup">Sign up</a>
+      </div>
       <button class="btn btn-primary w-100" @click="login">Login</button>
     </div>
   </div>
